@@ -7,6 +7,13 @@ https://www.researchgate.net/publication/343568932_A_Perceptually-Motivated_Appr
 Compared with https://github.com/jzi040941/PercepNet , this version is implemented using Keras.
 
 ----------------------------------------------------------
+Due to github file size limit is 100M, rnn_data.c is compressed to rnn_data.c.tgz. 
+This file need to be extracted before furthur compileing.
+% cd src
+% tar -xzvf rnn_data.c.tgz
+% cd ..
+
+
 To compile, just type:
 % ./autogen.sh
 % ./configure
