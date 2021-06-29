@@ -1,0 +1,63 @@
+PercepNet (Still need to be tuned)
+
+Unofficial implementation of PercepNet : A Perceptually-Motivated Approach for Low-Complexity, Real-Time Enhancement of Fullband Speech
+
+https://www.researchgate.net/publication/343568932_A_Perceptually-Motivated_Approach_for_Low-Complexity_Real-Time_Enhancement_of_Fullband_Speech
+
+Compared with https://github.com/jzi040941/PercepNet , this version is implemented using Keras.
+
+----------------------------------------------------------
+To compile, just type:
+% ./autogen.sh
+% ./configure
+% make
+
+A simple command-line tool is
+provided as an example. It operates on RAW 16-bit (machine endian) mono
+PCM files sampled at 48 kHz. It can be used as:
+
+./examples/rnnoise_demo <noisy speech> <output denoised>
+
+The output is also a 16-bit raw PCM file.
+
+------------------------------------------------------------
+
+How to train:
+(change to src subdirectory, assumed the clean and noise files's directory are in ~/DNS-Challenge/datasets/rnnoise3/)
+cd ~/percepnet/src
+./denoise_training ~/DNS-Challenge/datasets/rnnoise3/clean  ~/DNS-Challenge/datasets/rnnoise3/noise 52000000 training.f32
+
+(change to training subdirectory)
+cd ../training 
+python bin2hdf5.py …/src/training.f32 52000000 138 training.h5
+python rnn_train.py
+python dump_rnn_float.py weights.hdf5 rnn_data.c rnn_data.h orig
+cp rnn_data.c ../src/   
+
+(change to percepnet directory)
+cd ~/percepnet/
+make clean
+make
+
+(change to example subdirectory)
+cd examples 
+./rnnoise_demo test2.raw test2_denoised.raw
+
+----------------------------------------------------------------
+More:
+The performance of this version needs furthur optimization and tuning.
+In some cases, it is worse than Rnnoise.
+Any comments on how to optimize/tune are welcome.
+
+test_gr in src/ is used to test the classical processing, using computed g, r (not from deep learning model) directly to check 
+whether g,r work not not.
+
+The overall framework is based on https://github.com/xiph/rnnoise
+And the speech signal processing codes are from  https://github.com/jzi040941/PercepNet
+Compared with Rnnoise, the training data is normalized, and use float(not quantized) when conver to rnn_data.c.
+And during training, clip_norm is set to 0.1, or loss will be NAN.
+
+The training data are from:
+https://github.com/microsoft/DNS-Challenge
+
+Wavfiles processing codes(wav.h, wav.c) are from https://faculty.fiu.edu/~wgillam/wavfiles.html
