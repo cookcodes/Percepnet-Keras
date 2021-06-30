@@ -32,11 +32,11 @@ The output is also a 16-bit raw PCM file.
 How to train:
 (change to src subdirectory, assumed the clean and noise files's directory are in ~/DNS-Challenge/datasets/rnnoise3/)
 cd ~/percepnet/src
-./denoise_training ~/DNS-Challenge/datasets/rnnoise3/clean  ~/DNS-Challenge/datasets/rnnoise3/noise 52000000 training.f32
+./denoise_training ~/DNS-Challenge/datasets/rnnoise3/clean  ~/DNS-Challenge/datasets/rnnoise3/noise 80000000 training.f32
 
 (change to training subdirectory)
 cd ../training 
-python bin2hdf5.py …/src/training.f32 52000000 138 training.h5
+python bin2hdf5.py …/src/training.f32 80000000 138 training.h5
 python rnn_train.py
 python dump_rnn_float.py weights.hdf5 rnn_data.c rnn_data.h orig
 cp rnn_data.c ../src/   
