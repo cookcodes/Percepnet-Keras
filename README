@@ -61,7 +61,7 @@ whether g,r work not not.
 
 The overall framework is based on https://github.com/xiph/rnnoise
 And the speech signal processing codes are from  https://github.com/jzi040941/PercepNet
-Compared with Rnnoise, the training data is normalized, and use float(not quantized) when conver to rnn_data.c.
+Compared with Rnnoise, the training data is standardized, and use float(not quantized) when conver to rnn_data.c.
 And during training, clip_norm is set to 0.1, or loss will be NAN.
 
 The training data are from:
